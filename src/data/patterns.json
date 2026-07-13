@@ -88,6 +88,13 @@
       "summary": "Required sources agree on the legal entity, plan, and onboarding owner.",
       "recommendation": "Prepare standard onboarding",
       "authority": "Draft only. Account activation remains unavailable.",
+      "nextAction": "Prepare draft for review",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
       "confidence": {
         "band": "High · calibrated",
         "range": "0.84-0.89",
@@ -102,10 +109,10 @@
         "expiry": "Invalid after any source change"
       },
       "sources": [
-        { "name": "CRM account", "type": "System record", "age": "2m", "status": "Verified", "detail": "Entity, owner, and region match" },
-        { "name": "Signed order", "type": "Document extraction", "age": "14m", "status": "Verified", "detail": "Plan and start date extracted" },
-        { "name": "Billing profile", "type": "API record", "age": "5m", "status": "Verified", "detail": "Billing entity confirmed" },
-        { "name": "Security review", "type": "Policy record", "age": "1d", "status": "Current", "detail": "Standard controls accepted" }
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Verified", "detail": "Entity, owner, and region match" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Verified", "detail": "Plan and start date extracted" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:37 PT", "status": "Verified", "detail": "Billing entity confirmed" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Current", "detail": "Standard controls accepted" }
       ],
       "trace": [
         { "time": "09:41", "actor": "System", "event": "Collected four required sources", "detail": "No writes performed" },
@@ -123,6 +130,13 @@
       "summary": "The order form names a subsidiary that does not appear in the billing profile.",
       "recommendation": "Hold activation and verify the billing entity",
       "authority": "Read and request evidence. No draft or activation action.",
+      "nextAction": "Request billing evidence",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
       "confidence": {
         "band": "Uncertain · review",
         "range": "0.52-0.67",
@@ -137,10 +151,10 @@
         "expiry": "Recompute after evidence update"
       },
       "sources": [
-        { "name": "CRM account", "type": "System record", "age": "2m", "status": "Verified", "detail": "Parent entity recorded" },
-        { "name": "Signed order", "type": "Document extraction", "age": "14m", "status": "Conflict", "detail": "Subsidiary named as buyer" },
-        { "name": "Billing profile", "type": "API record", "age": "5m", "status": "Conflict", "detail": "Parent entity named as payer" },
-        { "name": "Security review", "type": "Policy record", "age": "1d", "status": "Current", "detail": "No entity-specific exception" }
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Verified", "detail": "Parent entity recorded" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Conflict", "detail": "Subsidiary named as buyer" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:37 PT", "status": "Conflict", "detail": "Parent entity named as payer" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Current", "detail": "No entity-specific exception" }
       ],
       "trace": [
         { "time": "09:41", "actor": "System", "event": "Collected four required sources", "detail": "No writes performed" },
@@ -158,6 +172,13 @@
       "summary": "The onboarding draft is complete. Activation changes customer access and billing state.",
       "recommendation": "Activate standard onboarding",
       "authority": "Prepared by the agent. Only the named approver can activate this exact state.",
+      "nextAction": "Route exact state to approver",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
       "confidence": {
         "band": "High · calibrated",
         "range": "0.88-0.92",
@@ -172,10 +193,10 @@
         "expiry": "15 minutes or any input change"
       },
       "sources": [
-        { "name": "CRM account", "type": "System record", "age": "2m", "status": "Verified", "detail": "Entity and owner confirmed" },
-        { "name": "Signed order", "type": "Document extraction", "age": "14m", "status": "Verified", "detail": "Commercial terms confirmed" },
-        { "name": "Billing profile", "type": "API record", "age": "5m", "status": "Verified", "detail": "Activation target confirmed" },
-        { "name": "Security review", "type": "Policy record", "age": "1d", "status": "Current", "detail": "Required controls accepted" }
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Verified", "detail": "Entity and owner confirmed" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Verified", "detail": "Commercial terms confirmed" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:37 PT", "status": "Verified", "detail": "Activation target confirmed" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Current", "detail": "Required controls accepted" }
       ],
       "trace": [
         { "time": "09:41", "actor": "System", "event": "Collected and verified sources", "detail": "Evidence set E-441" },
@@ -193,6 +214,13 @@
       "summary": "The billing connector timed out after read-only evidence collection completed.",
       "recommendation": "Retry only the billing read",
       "authority": "Operator may retry the failed read. Completed sources remain immutable.",
+      "nextAction": "Retry billing read",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
       "confidence": {
         "band": "Not decision-ready",
         "range": "Withheld",
@@ -207,10 +235,10 @@
         "expiry": "New approval after successful retry"
       },
       "sources": [
-        { "name": "CRM account", "type": "System record", "age": "2m", "status": "Preserved", "detail": "Read completed before failure" },
-        { "name": "Signed order", "type": "Document extraction", "age": "14m", "status": "Preserved", "detail": "Extraction result retained" },
-        { "name": "Billing profile", "type": "API record", "age": "Now", "status": "Unavailable", "detail": "Read timed out after 8 seconds" },
-        { "name": "Security review", "type": "Policy record", "age": "1d", "status": "Preserved", "detail": "Policy record remains current" }
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Preserved", "detail": "Read completed before failure" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Preserved", "detail": "Extraction result retained" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:42 PT", "status": "Unavailable", "detail": "Read timed out after 8 seconds" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Preserved", "detail": "Policy record remains current" }
       ],
       "trace": [
         { "time": "09:41", "actor": "System", "event": "Collected three sources", "detail": "Results persisted read-only" },
@@ -234,6 +262,8 @@
       "summary": "No account matched the provided external identifier.",
       "recommendation": "No recommendation available",
       "authority": "Search and request correction only. The agent cannot invent or create a record.",
+      "nextAction": "Request corrected identifier",
+      "record": null,
       "confidence": {
         "band": "Not scored",
         "range": "No evidence",

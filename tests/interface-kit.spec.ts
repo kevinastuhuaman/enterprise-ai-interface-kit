@@ -40,10 +40,19 @@ test("preserves completed work and scopes failure recovery", async ({ page }) =>
 
 test("shows absence without fabricating a record", async ({ page }) => {
   await page.getByRole("button", { name: "No evidence" }).click();
+  await expect(page.locator("[data-record-name]")).toHaveText("No account record");
+  await expect(page.locator("[data-record-meta]")).toHaveText("External ID SYN-440 · No object state");
+  await expect(page.locator("[data-context-record]")).toHaveText("No account record");
+  await expect(page.getByText("Northstar Labs", { exact: true })).toHaveCount(0);
   await expect(page.getByRole("heading", { name: "No account record found" })).toBeVisible();
   await expect(page.getByText("No source records available", { exact: true })).toBeVisible();
   await expect(page.getByText("Not scored", { exact: true })).toBeVisible();
   await expect(page.getByText("The agent cannot invent or create a record.", { exact: false })).toBeVisible();
+});
+
+test("shows absolute observation times for source provenance", async ({ page }) => {
+  await expect(page.getByText("System record · 2026-07-12 09:40 PT", { exact: true })).toBeVisible();
+  await expect(page.locator("[data-record-meta]")).toContainText("Observed 2026-07-12 09:40 PT");
 });
 
 test("updates explicit role boundaries", async ({ page }) => {

@@ -113,8 +113,8 @@ const firstRole = roles[1];
             </nav>
             <div class="run-context">
               <span>RUN-2048</span>
-              <strong>Northstar Labs</strong>
-              <small>Account onboarding</small>
+              <strong data-context-record>{firstState.record?.name ?? "No account record"}</strong>
+              <small data-context-kind>{firstState.record?.kind ?? "Identifier search"}</small>
               <dl><div><dt>Policy</dt><dd>v3.4</dd></div><div><dt>Region</dt><dd>US-West</dd></div><div><dt>Mode</dt><dd>Review</dd></div></dl>
             </div>
             <div class="public-boundary"><ShieldCheck size={16} aria-hidden="true" /><span>Fictional account and policy data</span></div>
@@ -122,7 +122,7 @@ const firstRole = roles[1];
 
           <div class="workspace-main">
             <header class="object-header">
-              <div><span data-stage>{firstState.stage}</span><h3>Northstar Labs</h3><p>Enterprise account · SYN-440 · Updated 2 minutes ago</p></div>
+              <div><span data-stage>{firstState.stage}</span><h3 data-record-name>{firstState.record?.name ?? "No account record"}</h3><p data-record-meta>{firstState.record ? `${firstState.record.kind} · ${firstState.record.identifier} · Observed ${firstState.record.observedAt}` : "External ID SYN-440 · No object state"}</p></div>
               <div class="object-status"><i aria-hidden="true"></i><strong data-state-label>{firstState.label}</strong></div>
             </header>
 
@@ -141,7 +141,7 @@ const firstRole = roles[1];
             <ConfidencePanel confidence={firstState.confidence} />
             <PermissionBoundary role={firstRole} />
             <ApprovalGate approval={firstState.approval} />
-            <div class="action-boundary" aria-live="polite"><span>Available next action</span><strong data-next-action>Prepare draft for review</strong><small>No consequential action can run from this interface state.</small></div>
+            <div class="action-boundary" aria-live="polite"><span>Available next action</span><strong data-next-action>{firstState.nextAction}</strong><small>No consequential action can run from this interface state.</small></div>
           </aside>
         </div>
       </section>
@@ -174,12 +174,14 @@ const firstRole = roles[1];
     </footer>
 
     <script>
-      type Source = { name: string; type: string; age: string; status: string; detail: string };
+      type Source = { name: string; type: string; observedAt: string; status: string; detail: string };
       type TraceItem = { time: string; actor: string; event: string; detail: string };
       type Recovery = { title: string; detail: string; action: string; owner: string; preserved: string } | null;
       type Empty = { title: string; detail: string; action: string } | null;
+      type RecordContext = { name: string; kind: string; identifier: string; observedAt: string } | null;
       type State = {
         id: string; label: string; stage: string; tone: string; summary: string; recommendation: string; authority: string;
+        nextAction: string; record: RecordContext;
         confidence: { band: string; range: string; coverage: string; threshold: string; note: string };
         approval: { status: string; owner: string; binding: string; expiry: string };
         sources: Source[]; trace: TraceItem[]; recovery: Recovery; empty: Empty;
@@ -216,7 +218,7 @@ const firstRole = roles[1];
           const name = document.createElement("strong");
           const meta = document.createElement("small");
           name.textContent = source.name;
-          meta.textContent = `${source.type} · ${source.age}`;
+          meta.textContent = `${source.type} · ${source.observedAt}`;
           identity.append(name, meta);
           const result = document.createElement("div");
           const status = document.createElement("b");
@@ -251,14 +253,6 @@ const firstRole = roles[1];
         }
       };
 
-      const nextAction = (state: State) => ({
-        ready: "Prepare draft for review",
-        "low-confidence": "Request billing evidence",
-        approval: "Route exact state to approver",
-        failed: state.recovery?.action ?? "Inspect failure",
-        empty: state.empty?.action ?? "Correct source record",
-      } as Record<string, string>)[state.id];
-
       const render = () => {
         const state = spec.states[stateIndex];
         const role = spec.roles[roleIndex];
@@ -269,6 +263,12 @@ const firstRole = roles[1];
         setText("[data-recommendation]", state.recommendation);
         setText("[data-state-summary]", state.summary);
         setText("[data-authority]", state.authority);
+        setText("[data-context-record]", state.record?.name ?? "No account record");
+        setText("[data-context-kind]", state.record?.kind ?? "Identifier search");
+        setText("[data-record-name]", state.record?.name ?? "No account record");
+        setText("[data-record-meta]", state.record
+          ? `${state.record.kind} · ${state.record.identifier} · Observed ${state.record.observedAt}`
+          : "External ID SYN-440 · No object state");
         setText("[data-confidence-band]", state.confidence.band);
         setText("[data-confidence-range]", state.confidence.range);
         setText("[data-confidence-coverage]", state.confidence.coverage);
@@ -281,7 +281,7 @@ const firstRole = roles[1];
         setText("[data-role-label]", role.label);
         setText("[data-role-can]", role.can);
         setText("[data-role-cannot]", role.cannot);
-        setText("[data-next-action]", nextAction(state));
+        setText("[data-next-action]", state.nextAction);
         renderSources(state.sources);
         renderTrace(state.trace);
 

@@ -1,6 +1,6 @@
 ---
 import { Check, Clock3, FileSearch, TriangleAlert } from "@lucide/astro";
-type Source = { name: string; type: string; age: string; status: string; detail: string };
+type Source = { name: string; type: string; observedAt: string; status: string; detail: string };
 const { sources } = Astro.props as { sources: Source[] };
 ---
 
@@ -15,7 +15,7 @@ const { sources } = Astro.props as { sources: Source[] };
         <span class="source-icon">
           {source.status === "Conflict" || source.status === "Unavailable" ? <TriangleAlert size={16} aria-hidden="true" /> : source.status === "Current" ? <Clock3 size={16} aria-hidden="true" /> : <Check size={16} aria-hidden="true" />}
         </span>
-        <div><strong>{source.name}</strong><small>{source.type} · {source.age}</small></div>
+        <div><strong>{source.name}</strong><small>{source.type} · {source.observedAt}</small></div>
         <div><b>{source.status}</b><small>{source.detail}</small></div>
       </li>
     ))}

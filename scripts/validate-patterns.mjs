@@ -41,10 +41,15 @@ for (const role of Array.isArray(spec.roles) ? spec.roles : []) {
 }
 
 for (const state of Array.isArray(spec.states) ? spec.states : []) {
-  if (!state.label || !state.stage || !state.tone || !state.summary || !state.recommendation || !state.authority) errors.push(`${state.id}: incomplete product state`);
+  if (!state.label || !state.stage || !state.tone || !state.summary || !state.recommendation || !state.authority || !state.nextAction) errors.push(`${state.id}: incomplete product state`);
+  if (state.id === "empty" && state.record !== null) errors.push("empty: record must be null");
+  if (state.id !== "empty" && (!state.record?.name || !state.record?.kind || !state.record?.identifier || !state.record?.observedAt)) errors.push(`${state.id}: incomplete record context`);
   if (!state.confidence?.band || !state.confidence?.range || !state.confidence?.coverage || !state.confidence?.threshold || !state.confidence?.note) errors.push(`${state.id}: incomplete confidence contract`);
   if (!state.approval?.status || !state.approval?.owner || !state.approval?.binding || !state.approval?.expiry) errors.push(`${state.id}: incomplete approval contract`);
   if (!Array.isArray(state.sources) || !Array.isArray(state.trace)) errors.push(`${state.id}: sources and trace must be arrays`);
+  for (const source of Array.isArray(state.sources) ? state.sources : []) {
+    if (!source.name || !source.type || !source.observedAt || !source.status || !source.detail) errors.push(`${state.id}: incomplete source provenance`);
+  }
   if (state.id === "failed" && !state.recovery) errors.push("failed: recovery contract is required");
   if (state.id === "empty" && !state.empty) errors.push("empty: empty-state contract is required");
 }

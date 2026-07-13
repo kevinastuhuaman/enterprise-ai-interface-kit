@@ -20,6 +20,9 @@ test("machine-readable resources contain the declared public contract", async ({
   expect(patterns.patterns).toHaveLength(7);
   expect(patterns.roles).toHaveLength(4);
   expect(patterns.states).toHaveLength(5);
+  expect(patterns.states.every((state: { nextAction?: string }) => Boolean(state.nextAction))).toBe(true);
+  expect(patterns.states.find((state: { id: string }) => state.id === "empty").record).toBeNull();
+  expect(patterns.states.flatMap((state: { sources: Array<{ observedAt?: string }> }) => state.sources).every((source: { observedAt?: string }) => Boolean(source.observedAt))).toBe(true);
 
   const llms = await (await request.get("./llms.txt")).text();
   expect(llms).toContain("Confidence is decision context, not authority.");
