@@ -1,0 +1,329 @@
+---
+import {
+  ArrowUpRight,
+  Braces,
+  Check,
+  ChevronRight,
+  CircleDot,
+  FileCheck,
+  GitBranch,
+  LayoutPanelTop,
+  SearchX,
+  ShieldCheck,
+  TriangleAlert,
+  UserRoundCheck,
+} from "@lucide/astro";
+import ApprovalGate from "../components/ApprovalGate.astro";
+import ConfidencePanel from "../components/ConfidencePanel.astro";
+import EmptyState from "../components/EmptyState.astro";
+import PermissionBoundary from "../components/PermissionBoundary.astro";
+import ProvenanceRail from "../components/ProvenanceRail.astro";
+import RecoveryPanel from "../components/RecoveryPanel.astro";
+import RunTrace from "../components/RunTrace.astro";
+import { buildDate } from "../data/build-date";
+import { patterns, roles, spec, states } from "../data/patterns";
+import "../styles/global.css";
+
+const canonical = "https://kevinastuhuaman.github.io/enterprise-ai-interface-kit/";
+const description = "An opinionated pattern system for provenance, calibrated confidence, permissions, approvals, traces, failures, recovery, and honest empty states in enterprise AI products.";
+const firstState = states[0];
+const firstRole = roles[1];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Kevin Astuhuaman" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <link rel="canonical" href={canonical} />
+    <link rel="alternate" type="text/plain" href={canonical + "llms.txt"} title="LLM context" />
+    <link rel="alternate" type="application/json" href={canonical + "patterns.json"} title="Pattern specification" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Enterprise AI Interface Kit | Kevin Astuhuaman" />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={canonical + "social-preview.png"} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Enterprise AI Interface Kit | Kevin Astuhuaman" />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={canonical + "social-preview.png"} />
+    <title>Enterprise AI Interface Kit | Kevin Astuhuaman</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#reference-product">Skip to reference product</a>
+    <header class="site-header">
+      <a class="wordmark" href="https://portfolio.kevinastuhuaman.com">Kevin Astuhuaman</a>
+      <nav aria-label="Project links">
+        <a href="https://github.com/kevinastuhuaman/enterprise-ai-interface-kit"><GitBranch size={16} aria-hidden="true" /> Source</a>
+        <a href="./patterns.json"><Braces size={16} aria-hidden="true" /> Pattern contract</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="intro" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow">Opinionated interface patterns for consequential AI</p>
+          <h1 id="page-title">Enterprise AI needs an interface for uncertainty.</h1>
+          <p class="lede">One reference workflow packages evidence, confidence, authority, approval, observable traces, failure, recovery, and absence into a product system that operators can actually reason about.</p>
+          <div class="intro-actions">
+            <a class="button primary" href="#reference-product">Open the reference product <ArrowUpRight size={16} aria-hidden="true" /></a>
+            <a class="button" href="./patterns.json">Inspect seven contracts <Braces size={16} aria-hidden="true" /></a>
+          </div>
+        </div>
+        <div class="intro-register" aria-label="Pattern register">
+          {patterns.map((pattern, index) => (
+            <div><span>0{index + 1}</span><strong>{pattern.name}</strong><small>{pattern.question}</small></div>
+          ))}
+        </div>
+      </section>
+
+      <section
+        id="reference-product"
+        class="reference-product"
+        data-interface-kit
+        data-spec={JSON.stringify(spec)}
+        data-state={firstState.id}
+        data-tone={firstState.tone}
+        aria-labelledby="reference-title"
+      >
+        <header class="reference-header">
+          <div><p class="eyebrow">Reference implementation · synthetic data</p><h2 id="reference-title">Account onboarding review</h2></div>
+          <label class="reduced-toggle"><input type="checkbox" data-reduced-motion /><span aria-hidden="true"></span>Reduced motion</label>
+        </header>
+
+        <div class="state-toolbar">
+          <div class="state-switch" aria-label="Reference product state">
+            {states.map((state, index) => <button type="button" data-state-index={index} aria-pressed={index === 0 ? "true" : "false"}>{state.label}</button>)}
+          </div>
+          <div class="role-switch" aria-label="Active role">
+            {roles.map((role, index) => <button type="button" data-role-index={index} aria-pressed={index === 1 ? "true" : "false"}>{role.label}</button>)}
+          </div>
+        </div>
+
+        <div class="operator-shell">
+          <aside class="run-sidebar" aria-label="Run context">
+            <div class="product-mark"><LayoutPanelTop size={18} aria-hidden="true" /><strong>Atlas Ops</strong></div>
+            <nav aria-label="Run navigation">
+              <span class="active"><CircleDot size={15} aria-hidden="true" />Review queue <b>4</b></span>
+              <span><FileCheck size={15} aria-hidden="true" />Completed <b>28</b></span>
+              <span><TriangleAlert size={15} aria-hidden="true" />Exceptions <b>2</b></span>
+            </nav>
+            <div class="run-context">
+              <span>RUN-2048</span>
+              <strong data-context-record>{firstState.record?.name ?? "No account record"}</strong>
+              <small data-context-kind>{firstState.record?.kind ?? "Identifier search"}</small>
+              <dl><div><dt>Policy</dt><dd>v3.4</dd></div><div><dt>Region</dt><dd>US-West</dd></div><div><dt>Mode</dt><dd>Review</dd></div></dl>
+            </div>
+            <div class="public-boundary"><ShieldCheck size={16} aria-hidden="true" /><span>Fictional account and policy data</span></div>
+          </aside>
+
+          <div class="workspace-main">
+            <header class="object-header">
+              <div><span data-stage>{firstState.stage}</span><h3 data-record-name>{firstState.record?.name ?? "No account record"}</h3><p data-record-meta>{firstState.record ? `${firstState.record.kind} · ${firstState.record.identifier} · Observed ${firstState.record.observedAt}` : "External ID SYN-440 · No object state"}</p></div>
+              <div class="object-status"><i aria-hidden="true"></i><strong data-state-label>{firstState.label}</strong></div>
+            </header>
+
+            <section class="decision-summary" aria-labelledby="decision-title">
+              <div><span>Agent recommendation</span><h3 id="decision-title" data-recommendation>{firstState.recommendation}</h3><p data-state-summary>{firstState.summary}</p></div>
+              <aside><span>Current authority</span><strong data-authority>{firstState.authority}</strong></aside>
+            </section>
+
+            <EmptyState />
+            <ProvenanceRail sources={firstState.sources} />
+            <RunTrace trace={firstState.trace} />
+            <RecoveryPanel />
+          </div>
+
+          <aside class="inspector" aria-label="Decision inspector">
+            <ConfidencePanel confidence={firstState.confidence} />
+            <PermissionBoundary role={firstRole} />
+            <ApprovalGate approval={firstState.approval} />
+            <div class="action-boundary" aria-live="polite"><span>Available next action</span><strong data-next-action>{firstState.nextAction}</strong><small>No consequential action can run from this interface state.</small></div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="contract-section" aria-labelledby="contract-title">
+        <header><div><p class="eyebrow">Reusable product contracts</p><h2 id="contract-title">A kit for decisions, not decoration.</h2></div><p>Each pattern names the user question, the minimum product contract, and the failure it is designed to prevent.</p></header>
+        <div class="contract-table" role="table" aria-label="Enterprise AI pattern contracts">
+          <div class="contract-head" role="row"><span role="columnheader">Pattern</span><span role="columnheader">Product question</span><span role="columnheader">Minimum contract</span><span role="columnheader">Failure prevented</span></div>
+          {patterns.map((pattern, index) => (
+            <article role="row"><span role="cell">0{index + 1} · {pattern.name}</span><strong role="cell">{pattern.question}</strong><p role="cell">{pattern.contract}</p><p role="cell">{pattern.prevents}</p></article>
+          ))}
+        </div>
+      </section>
+
+      <section class="principles" aria-labelledby="principles-title">
+        <div><p class="eyebrow">Operating principles</p><h2 id="principles-title">Trust comes from inspectable boundaries.</h2></div>
+        <div class="principle-list">
+          <article><Check size={18} aria-hidden="true" /><div><strong>Evidence before explanation</strong><p>Show what supports the output before asking users to trust the summary.</p></div></article>
+          <article><UserRoundCheck size={18} aria-hidden="true" /><div><strong>Authority before action</strong><p>Make the allowed actor and exact approval boundary visible at the decision point.</p></div></article>
+          <article><ChevronRight size={18} aria-hidden="true" /><div><strong>Recovery before retry</strong><p>Preserve completed work, isolate the failed boundary, and recompute stale decisions.</p></div></article>
+          <article><SearchX size={18} aria-hidden="true" /><div><strong>Absence before invention</strong><p>An honest empty state is more useful than a fluent answer without evidence.</p></div></article>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div><strong>Enterprise AI Interface Kit</strong><span>Original interface · synthetic data · public pattern contract</span></div>
+      <nav aria-label="Footer links"><a href="./llms.txt">LLM context</a><a href="./patterns.json">Patterns</a><a href="https://portfolio.kevinastuhuaman.com">Portfolio <ArrowUpRight size={14} aria-hidden="true" /></a></nav>
+      <small>Built {buildDate} PT</small>
+    </footer>
+
+    <script>
+      type Source = { name: string; type: string; observedAt: string; status: string; detail: string };
+      type TraceItem = { time: string; actor: string; event: string; detail: string };
+      type Recovery = { title: string; detail: string; action: string; owner: string; preserved: string } | null;
+      type Empty = { title: string; detail: string; action: string } | null;
+      type RecordContext = { name: string; kind: string; identifier: string; observedAt: string } | null;
+      type State = {
+        id: string; label: string; stage: string; tone: string; summary: string; recommendation: string; authority: string;
+        nextAction: string; record: RecordContext;
+        confidence: { band: string; range: string; coverage: string; threshold: string; note: string };
+        approval: { status: string; owner: string; binding: string; expiry: string };
+        sources: Source[]; trace: TraceItem[]; recovery: Recovery; empty: Empty;
+      };
+      type Role = { id: string; label: string; can: string; cannot: string };
+      type InterfaceSpec = { states: State[]; roles: Role[] };
+
+      const root = document.querySelector("[data-interface-kit]");
+      if (!(root instanceof HTMLElement)) throw new Error("Interface kit root not found");
+      const spec = JSON.parse(root.dataset.spec ?? "{}") as InterfaceSpec;
+      let stateIndex = 0;
+      let roleIndex = 1;
+
+      const setText = (selector: string, value: string) => {
+        const node = root.querySelector(selector);
+        if (node) node.textContent = value;
+      };
+
+      const renderSources = (sources: Source[]) => {
+        const list = root.querySelector("[data-source-list]");
+        const empty = root.querySelector("[data-empty-sources]");
+        if (!(list instanceof HTMLOListElement) || !(empty instanceof HTMLElement)) return;
+        list.replaceChildren();
+        empty.hidden = sources.length > 0;
+        list.hidden = sources.length === 0;
+        for (const source of sources) {
+          const item = document.createElement("li");
+          item.dataset.sourceStatus = source.status.toLowerCase();
+          const icon = document.createElement("span");
+          icon.className = "source-icon";
+          icon.setAttribute("aria-hidden", "true");
+          icon.textContent = ["Conflict", "Unavailable"].includes(source.status) ? "!" : "✓";
+          const identity = document.createElement("div");
+          const name = document.createElement("strong");
+          const meta = document.createElement("small");
+          name.textContent = source.name;
+          meta.textContent = `${source.type} · ${source.observedAt}`;
+          identity.append(name, meta);
+          const result = document.createElement("div");
+          const status = document.createElement("b");
+          const detail = document.createElement("small");
+          status.textContent = source.status;
+          detail.textContent = source.detail;
+          result.append(status, detail);
+          item.append(icon, identity, result);
+          list.append(item);
+        }
+        setText("[data-source-count]", sources.length ? `${sources.length} required sources` : "No source records");
+      };
+
+      const renderTrace = (trace: TraceItem[]) => {
+        const list = root.querySelector("[data-trace-list]");
+        if (!(list instanceof HTMLOListElement)) return;
+        list.replaceChildren();
+        for (const traceItem of trace) {
+          const item = document.createElement("li");
+          const time = document.createElement("time");
+          const actor = document.createElement("span");
+          const eventWrap = document.createElement("div");
+          const event = document.createElement("strong");
+          const detail = document.createElement("small");
+          time.textContent = traceItem.time;
+          actor.textContent = traceItem.actor;
+          event.textContent = traceItem.event;
+          detail.textContent = traceItem.detail;
+          eventWrap.append(event, detail);
+          item.append(time, actor, eventWrap);
+          list.append(item);
+        }
+      };
+
+      const render = () => {
+        const state = spec.states[stateIndex];
+        const role = spec.roles[roleIndex];
+        root.dataset.state = state.id;
+        root.dataset.tone = state.tone;
+        setText("[data-stage]", state.stage);
+        setText("[data-state-label]", state.label);
+        setText("[data-recommendation]", state.recommendation);
+        setText("[data-state-summary]", state.summary);
+        setText("[data-authority]", state.authority);
+        setText("[data-context-record]", state.record?.name ?? "No account record");
+        setText("[data-context-kind]", state.record?.kind ?? "Identifier search");
+        setText("[data-record-name]", state.record?.name ?? "No account record");
+        setText("[data-record-meta]", state.record
+          ? `${state.record.kind} · ${state.record.identifier} · Observed ${state.record.observedAt}`
+          : "External ID SYN-440 · No object state");
+        setText("[data-confidence-band]", state.confidence.band);
+        setText("[data-confidence-range]", state.confidence.range);
+        setText("[data-confidence-coverage]", state.confidence.coverage);
+        setText("[data-confidence-threshold]", state.confidence.threshold);
+        setText("[data-confidence-note]", state.confidence.note);
+        setText("[data-approval-status]", state.approval.status);
+        setText("[data-approval-owner]", state.approval.owner);
+        setText("[data-approval-binding]", state.approval.binding);
+        setText("[data-approval-expiry]", state.approval.expiry);
+        setText("[data-role-label]", role.label);
+        setText("[data-role-can]", role.can);
+        setText("[data-role-cannot]", role.cannot);
+        setText("[data-next-action]", state.nextAction);
+        renderSources(state.sources);
+        renderTrace(state.trace);
+
+        const recoveryPanel = root.querySelector("[data-recovery-panel]");
+        if (recoveryPanel instanceof HTMLElement) {
+          recoveryPanel.hidden = !state.recovery;
+          if (state.recovery) {
+            setText("[data-recovery-title]", state.recovery.title);
+            setText("[data-recovery-detail]", state.recovery.detail);
+            setText("[data-recovery-owner]", state.recovery.owner);
+            setText("[data-recovery-preserved]", state.recovery.preserved);
+            setText("[data-recovery-action]", state.recovery.action);
+          }
+        }
+        const emptyPanel = root.querySelector("[data-empty-panel]");
+        if (emptyPanel instanceof HTMLElement) {
+          emptyPanel.hidden = !state.empty;
+          if (state.empty) {
+            setText("[data-empty-title]", state.empty.title);
+            setText("[data-empty-detail]", state.empty.detail);
+            setText("[data-empty-action]", state.empty.action);
+          }
+        }
+        root.querySelectorAll("[data-state-index]").forEach((button, index) => button.setAttribute("aria-pressed", String(index === stateIndex)));
+        root.querySelectorAll("[data-role-index]").forEach((button, index) => button.setAttribute("aria-pressed", String(index === roleIndex)));
+      };
+
+      root.querySelectorAll("[data-state-index]").forEach((button) => button.addEventListener("click", () => {
+        stateIndex = Number(button.getAttribute("data-state-index"));
+        render();
+      }));
+      root.querySelectorAll("[data-role-index]").forEach((button) => button.addEventListener("click", () => {
+        roleIndex = Number(button.getAttribute("data-role-index"));
+        render();
+      }));
+      const reduced = root.querySelector("[data-reduced-motion]");
+      reduced?.addEventListener("change", () => root.classList.toggle("reduced", reduced instanceof HTMLInputElement && reduced.checked));
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches && reduced instanceof HTMLInputElement) {
+        reduced.checked = true;
+        root.classList.add("reduced");
+      }
+      render();
+    </script>
+  </body>
+</html>

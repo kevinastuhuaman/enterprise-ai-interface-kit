@@ -1,0 +1,293 @@
+{
+  "version": "1.0",
+  "title": "Enterprise AI Interface Kit",
+  "subject": "Fictional account onboarding review",
+  "patterns": [
+    {
+      "id": "provenance",
+      "name": "Provenance chain",
+      "question": "What evidence produced this output?",
+      "contract": "Source, observed time, transformation, and current availability",
+      "prevents": "Untraceable recommendations and stale-source ambiguity"
+    },
+    {
+      "id": "confidence",
+      "name": "Calibrated confidence",
+      "question": "How much uncertainty matters for this decision?",
+      "contract": "Calibrated band, evidence coverage, threshold, and intended action",
+      "prevents": "False precision and confidence-as-permission"
+    },
+    {
+      "id": "permissions",
+      "name": "Permission boundary",
+      "question": "What can this person and agent do now?",
+      "contract": "Actor, allowed action, prohibited action, and scope",
+      "prevents": "Capability being mistaken for authority"
+    },
+    {
+      "id": "approval",
+      "name": "State-bound approval",
+      "question": "Who owns the consequential decision?",
+      "contract": "Owner, exact state binding, expiration, and invalidation rule",
+      "prevents": "Stale approval surviving an input change"
+    },
+    {
+      "id": "trace",
+      "name": "Observable run trace",
+      "question": "What happened without exposing private reasoning?",
+      "contract": "Timestamp, actor, observable event, input or output reference",
+      "prevents": "Opaque execution and chain-of-thought leakage"
+    },
+    {
+      "id": "failure",
+      "name": "Scoped failure",
+      "question": "What stopped and what remains valid?",
+      "contract": "Failed boundary, preserved work, retry scope, and owner",
+      "prevents": "All-or-nothing recovery and duplicate side effects"
+    },
+    {
+      "id": "empty",
+      "name": "Honest empty state",
+      "question": "What does the system know when evidence is absent?",
+      "contract": "Absence reason, impact on decision, and bounded next action",
+      "prevents": "Fabricated certainty and silent no-data states"
+    }
+  ],
+  "roles": [
+    {
+      "id": "viewer",
+      "label": "Viewer",
+      "can": "Inspect evidence and trace",
+      "cannot": "Draft changes or approve actions"
+    },
+    {
+      "id": "operator",
+      "label": "Operator",
+      "can": "Prepare drafts and scoped retries",
+      "cannot": "Activate an account or change policy"
+    },
+    {
+      "id": "approver",
+      "label": "Approver",
+      "can": "Approve the exact prepared state",
+      "cannot": "Change policy or approve a changed state"
+    },
+    {
+      "id": "admin",
+      "label": "Admin",
+      "can": "Change policy and role assignments",
+      "cannot": "Approve a policy change they authored"
+    }
+  ],
+  "states": [
+    {
+      "id": "ready",
+      "label": "Evidence ready",
+      "stage": "Ready for operator review",
+      "tone": "positive",
+      "summary": "Required sources agree on the legal entity, plan, and onboarding owner.",
+      "recommendation": "Prepare standard onboarding",
+      "authority": "Draft only. Account activation remains unavailable.",
+      "nextAction": "Prepare draft for review",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
+      "confidence": {
+        "band": "High · calibrated",
+        "range": "0.84-0.89",
+        "coverage": "4 of 4 required sources",
+        "threshold": "0.80 for draft preparation",
+        "note": "Enough evidence to draft, never enough to self-authorize activation."
+      },
+      "approval": {
+        "status": "Not requested",
+        "owner": "Revenue operations",
+        "binding": "Will bind to state 7D3A",
+        "expiry": "Invalid after any source change"
+      },
+      "sources": [
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Verified", "detail": "Entity, owner, and region match" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Verified", "detail": "Plan and start date extracted" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:37 PT", "status": "Verified", "detail": "Billing entity confirmed" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Current", "detail": "Standard controls accepted" }
+      ],
+      "trace": [
+        { "time": "09:41", "actor": "System", "event": "Collected four required sources", "detail": "No writes performed" },
+        { "time": "09:42", "actor": "Policy", "event": "Applied onboarding policy v3.4", "detail": "Draft boundary selected" },
+        { "time": "09:42", "actor": "Model", "event": "Prepared recommendation R-2048", "detail": "Evidence references attached" }
+      ],
+      "recovery": null,
+      "empty": null
+    },
+    {
+      "id": "low-confidence",
+      "label": "Low confidence",
+      "stage": "Evidence gap",
+      "tone": "warning",
+      "summary": "The order form names a subsidiary that does not appear in the billing profile.",
+      "recommendation": "Hold activation and verify the billing entity",
+      "authority": "Read and request evidence. No draft or activation action.",
+      "nextAction": "Request billing evidence",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
+      "confidence": {
+        "band": "Uncertain · review",
+        "range": "0.52-0.67",
+        "coverage": "3 of 4 sources agree",
+        "threshold": "0.80 for draft preparation",
+        "note": "The band crosses the decision boundary, so the interface routes to evidence review."
+      },
+      "approval": {
+        "status": "Unavailable",
+        "owner": "Revenue operations",
+        "binding": "No approvable state",
+        "expiry": "Recompute after evidence update"
+      },
+      "sources": [
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Verified", "detail": "Parent entity recorded" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Conflict", "detail": "Subsidiary named as buyer" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:37 PT", "status": "Conflict", "detail": "Parent entity named as payer" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Current", "detail": "No entity-specific exception" }
+      ],
+      "trace": [
+        { "time": "09:41", "actor": "System", "event": "Collected four required sources", "detail": "No writes performed" },
+        { "time": "09:42", "actor": "Model", "event": "Detected entity contradiction", "detail": "Order and billing sources disagree" },
+        { "time": "09:42", "actor": "Policy", "event": "Blocked draft preparation", "detail": "Evidence threshold not met" }
+      ],
+      "recovery": null,
+      "empty": null
+    },
+    {
+      "id": "approval",
+      "label": "Approval required",
+      "stage": "Prepared action",
+      "tone": "approval",
+      "summary": "The onboarding draft is complete. Activation changes customer access and billing state.",
+      "recommendation": "Activate standard onboarding",
+      "authority": "Prepared by the agent. Only the named approver can activate this exact state.",
+      "nextAction": "Route exact state to approver",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
+      "confidence": {
+        "band": "High · calibrated",
+        "range": "0.88-0.92",
+        "coverage": "4 of 4 required sources",
+        "threshold": "Confidence does not replace approval",
+        "note": "Model quality supports the recommendation; consequence determines the control."
+      },
+      "approval": {
+        "status": "Fresh approval required",
+        "owner": "Maya Chen · Revenue operations",
+        "binding": "Bound to state 7D3A",
+        "expiry": "15 minutes or any input change"
+      },
+      "sources": [
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Verified", "detail": "Entity and owner confirmed" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Verified", "detail": "Commercial terms confirmed" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:37 PT", "status": "Verified", "detail": "Activation target confirmed" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Current", "detail": "Required controls accepted" }
+      ],
+      "trace": [
+        { "time": "09:41", "actor": "System", "event": "Collected and verified sources", "detail": "Evidence set E-441" },
+        { "time": "09:42", "actor": "Agent", "event": "Prepared onboarding draft", "detail": "No activation performed" },
+        { "time": "09:43", "actor": "Policy", "event": "Routed state 7D3A for approval", "detail": "Owner and expiry attached" }
+      ],
+      "recovery": null,
+      "empty": null
+    },
+    {
+      "id": "failed",
+      "label": "Scoped failure",
+      "stage": "Connector interrupted",
+      "tone": "critical",
+      "summary": "The billing connector timed out after read-only evidence collection completed.",
+      "recommendation": "Retry only the billing read",
+      "authority": "Operator may retry the failed read. Completed sources remain immutable.",
+      "nextAction": "Retry billing read",
+      "record": {
+        "name": "Northstar Labs",
+        "kind": "Enterprise account",
+        "identifier": "SYN-440",
+        "observedAt": "2026-07-12 09:40 PT"
+      },
+      "confidence": {
+        "band": "Not decision-ready",
+        "range": "Withheld",
+        "coverage": "3 of 4 sources available",
+        "threshold": "All required evidence must be current",
+        "note": "The system withholds a score when a required source is unavailable."
+      },
+      "approval": {
+        "status": "Invalidated",
+        "owner": "Revenue operations",
+        "binding": "Previous state 63BF expired",
+        "expiry": "New approval after successful retry"
+      },
+      "sources": [
+        { "name": "CRM account", "type": "System record", "observedAt": "2026-07-12 09:40 PT", "status": "Preserved", "detail": "Read completed before failure" },
+        { "name": "Signed order", "type": "Document extraction", "observedAt": "2026-07-12 09:28 PT", "status": "Preserved", "detail": "Extraction result retained" },
+        { "name": "Billing profile", "type": "API record", "observedAt": "2026-07-12 09:42 PT", "status": "Unavailable", "detail": "Read timed out after 8 seconds" },
+        { "name": "Security review", "type": "Policy record", "observedAt": "2026-07-11 09:42 PT", "status": "Preserved", "detail": "Policy record remains current" }
+      ],
+      "trace": [
+        { "time": "09:41", "actor": "System", "event": "Collected three sources", "detail": "Results persisted read-only" },
+        { "time": "09:42", "actor": "Connector", "event": "Billing read timed out", "detail": "No write was attempted" },
+        { "time": "09:42", "actor": "Policy", "event": "Invalidated prior approval", "detail": "Required evidence became incomplete" }
+      ],
+      "recovery": {
+        "title": "Retry the smallest failed boundary",
+        "detail": "Keep three verified sources, retry one idempotent read, then recompute confidence and approval binding.",
+        "action": "Retry billing read",
+        "owner": "Operator",
+        "preserved": "CRM, order, security review"
+      },
+      "empty": null
+    },
+    {
+      "id": "empty",
+      "label": "No evidence",
+      "stage": "Empty result",
+      "tone": "neutral",
+      "summary": "No account matched the provided external identifier.",
+      "recommendation": "No recommendation available",
+      "authority": "Search and request correction only. The agent cannot invent or create a record.",
+      "nextAction": "Request corrected identifier",
+      "record": null,
+      "confidence": {
+        "band": "Not scored",
+        "range": "No evidence",
+        "coverage": "0 of 4 sources",
+        "threshold": "A record is required before evaluation",
+        "note": "Absence is an explicit product state, not a low-confidence prediction."
+      },
+      "approval": {
+        "status": "Not applicable",
+        "owner": "Unassigned",
+        "binding": "No object state exists",
+        "expiry": "Evaluate after a record is found"
+      },
+      "sources": [],
+      "trace": [
+        { "time": "09:41", "actor": "System", "event": "Searched account index", "detail": "External ID SYN-440 returned no match" },
+        { "time": "09:41", "actor": "Policy", "event": "Stopped evidence collection", "detail": "No subject record available" }
+      ],
+      "recovery": null,
+      "empty": {
+        "title": "No account record found",
+        "detail": "Check the external identifier or request a corrected source record. Nothing has been created or changed.",
+        "action": "Request corrected identifier"
+      }
+    }
+  ]
+}
