@@ -16,7 +16,14 @@ if (!Array.isArray(spec.states) || spec.states.length !== 5) errors.push("exactl
 const requireUniqueIds = (items, label) => {
   const ids = new Set();
   for (const item of Array.isArray(items) ? items : []) {
-    if (!item.id || ids.has(item.id)) errors.push(`${label}: invalid or duplicate id ${item.id}`);
+    if (!item.id) {
+      errors.push(`${label}: missing id`);
+      continue;
+    }
+    if (ids.has(item.id)) {
+      errors.push(`${label}: duplicate id ${item.id}`);
+      continue;
+    }
     ids.add(item.id);
   }
 };
