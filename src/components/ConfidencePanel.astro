@@ -1,0 +1,14 @@
+---
+type Confidence = { band: string; range: string; coverage: string; threshold: string; note: string };
+const { confidence } = Astro.props as { confidence: Confidence };
+---
+
+<section class="confidence-panel" aria-labelledby="confidence-title">
+  <header class="panel-heading"><div><span>Pattern 02</span><h3 id="confidence-title">Confidence</h3></div><strong data-confidence-band>{confidence.band}</strong></header>
+  <div class="confidence-range"><span>Calibrated range</span><b data-confidence-range>{confidence.range}</b></div>
+  <dl>
+    <div><dt>Coverage</dt><dd data-confidence-coverage>{confidence.coverage}</dd></div>
+    <div><dt>Decision threshold</dt><dd data-confidence-threshold>{confidence.threshold}</dd></div>
+  </dl>
+  <p data-confidence-note>{confidence.note}</p>
+</section>

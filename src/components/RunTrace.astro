@@ -1,0 +1,13 @@
+---
+type TraceItem = { time: string; actor: string; event: string; detail: string };
+const { trace } = Astro.props as { trace: TraceItem[] };
+---
+
+<section class="trace-panel" aria-labelledby="trace-title">
+  <header class="panel-heading"><div><span>Pattern 05</span><h3 id="trace-title">Observable trace</h3></div><small>Events, not hidden reasoning</small></header>
+  <ol data-trace-list>
+    {trace.map((item) => (
+      <li><time>{item.time}</time><span>{item.actor}</span><div><strong>{item.event}</strong><small>{item.detail}</small></div></li>
+    ))}
+  </ol>
+</section>

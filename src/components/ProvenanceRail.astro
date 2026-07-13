@@ -1,0 +1,26 @@
+---
+import { Check, Clock3, FileSearch, TriangleAlert } from "@lucide/astro";
+type Source = { name: string; type: string; age: string; status: string; detail: string };
+const { sources } = Astro.props as { sources: Source[] };
+---
+
+<section class="provenance" aria-labelledby="provenance-title">
+  <header class="panel-heading">
+    <div><span>Pattern 01</span><h3 id="provenance-title">Provenance</h3></div>
+    <small data-source-count>{sources.length} required sources</small>
+  </header>
+  <ol data-source-list>
+    {sources.map((source) => (
+      <li data-source-status={source.status.toLowerCase()}>
+        <span class="source-icon">
+          {source.status === "Conflict" || source.status === "Unavailable" ? <TriangleAlert size={16} aria-hidden="true" /> : source.status === "Current" ? <Clock3 size={16} aria-hidden="true" /> : <Check size={16} aria-hidden="true" />}
+        </span>
+        <div><strong>{source.name}</strong><small>{source.type} · {source.age}</small></div>
+        <div><b>{source.status}</b><small>{source.detail}</small></div>
+      </li>
+    ))}
+  </ol>
+  <div class="empty-source-fallback" data-empty-sources hidden>
+    <FileSearch size={18} aria-hidden="true" /><span>No source records available</span>
+  </div>
+</section>

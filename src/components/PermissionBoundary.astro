@@ -1,0 +1,11 @@
+---
+import { Check, LockKeyhole } from "@lucide/astro";
+type Role = { id: string; label: string; can: string; cannot: string };
+const { role } = Astro.props as { role: Role };
+---
+
+<section class="permission-panel" aria-labelledby="permission-title">
+  <header class="panel-heading"><div><span>Pattern 03</span><h3 id="permission-title">Permission boundary</h3></div><strong data-role-label>{role.label}</strong></header>
+  <div class="permission-row allowed"><Check size={16} aria-hidden="true" /><div><span>Can</span><strong data-role-can>{role.can}</strong></div></div>
+  <div class="permission-row denied"><LockKeyhole size={16} aria-hidden="true" /><div><span>Cannot</span><strong data-role-cannot>{role.cannot}</strong></div></div>
+</section>

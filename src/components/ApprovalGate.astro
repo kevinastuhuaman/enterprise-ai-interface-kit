@@ -1,0 +1,16 @@
+---
+import { ScanLine, ShieldCheck } from "@lucide/astro";
+type Approval = { status: string; owner: string; binding: string; expiry: string };
+const { approval } = Astro.props as { approval: Approval };
+---
+
+<section class="approval-panel" aria-labelledby="approval-title">
+  <header class="panel-heading"><div><span>Pattern 04</span><h3 id="approval-title">Approval</h3></div><ShieldCheck size={18} aria-hidden="true" /></header>
+  <strong class="approval-status" data-approval-status>{approval.status}</strong>
+  <dl>
+    <div><dt>Owner</dt><dd data-approval-owner>{approval.owner}</dd></div>
+    <div><dt>Binding</dt><dd data-approval-binding>{approval.binding}</dd></div>
+    <div><dt>Expires</dt><dd data-approval-expiry>{approval.expiry}</dd></div>
+  </dl>
+  <div class="state-seal"><ScanLine size={16} aria-hidden="true" /><span>Approval follows committed state, not intent.</span></div>
+</section>
